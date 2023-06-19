@@ -17,9 +17,7 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('./public'))
 app.use(express.static('./public/views'))
-app.use(express.static('./public/components'))
 app.use(express.static('./public/assets/css'))
-app.use(express.static('./public/assets/img'))
 app.use(express.static('./public/assets/js'))
 
 app.use(express.urlencoded({ extended: true }))
