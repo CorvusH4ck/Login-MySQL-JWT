@@ -1,7 +1,6 @@
 import express from 'express'
 import connector from '../database/db.js'
 import {
-  register,
   login,
   logout,
   isAuthenticated
@@ -22,17 +21,6 @@ router.get('/', isAuthenticated, function (req, res) {
   })
 })
 
-router.get('/agenda', isAuthenticated, function (req, res) {
-  connector.query('SELECT * FROM clients', function (error, results) {
-    if (error) {
-      throw error
-    } else {
-      USER = req.user
-      res.render('agenda', { user: USER, count: results.length })
-    }
-  })
-})
-
 router.get('/login', function (req, res) {
   if (req.cookies.jwt) {
     res.redirect('/')
@@ -41,15 +29,6 @@ router.get('/login', function (req, res) {
   }
 })
 
-router.get('/profile', isAuthenticated, function (req, res) {
-  res.render('profile', { user: USER })
-})
-
-router.get('/register', isAuthenticated, function (req, res) {
-  res.render('register', { user: USER })
-})
-
-router.post('/register', register)
 router.post('/login', login)
 router.get('/logout', logout)
 
