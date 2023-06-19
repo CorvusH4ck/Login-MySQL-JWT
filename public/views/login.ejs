@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
+  <link href="../assets/css/main-login.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/img/icon.png"/>
+  <title>App</title>
+</head>
+<body class="bg-slate-900 w-screen font-sans">
+    <main class="p-6 flex items-center justify-center h-screen">
+      <div class="w-11/12 sm:w-5/12 lg:w-5/12 xl:w-5/12 2xl:w-5/12 bg-gray-300 border-gray-100 rounded border-2">
+        <header class="border-gray-100 flex items-stretch border-b">
+          <p class="flex items-center py-3 px-4 font-bold">
+            <span class="inline-flex items-center justify-center w-6 h-6"><i class="mdi mdi-lock"></i></span>
+            Iniciar Sesión
+          </p>
+        </header>
+        <div class="p-6">
+          <form method = "post" action = "/login">
+            <div class="mb-6">
+              <label class="block text-base font-bold mb-2">Usuario</label>
+              <div class="relative">
+                <input class="text-gray-400 text-sm sm:text-base lg:text-base xl:text-base rounded border border-gray-400 py-2 px-3 pl-10 w-full focus:text-gray-950" type="text" name="user" id="user" placeholder="usuario@marinmuebles.com" autocomplete="username">
+                <span class="left-0 h-10 absolute top-0 w-10 z-10 inline-flex items-center justify-center"><i class="mdi mdi-account"></i></span>
+              </div>
+              <p class="block text-xs mt-1 text-gray-600">Por favor ingresa tu usuario</p>
+            </div>
+            <div class="mb-6">
+              <label class="block text-base font-bold mb-2">Contraseña</label>
+              <p class="relative">
+                <input class="text-gray-400 text-sm sm:text-base lg:text-base xl:text-base rounded border border-gray-400 py-2 px-3 pl-10 w-full focus:text-gray-950" type="password" name="password" id="password" placeholder="Contraseña" autocomplete="current-password">
+                <span class="left-0 h-10 absolute top-0 w-10 z-10 inline-flex items-center justify-center"><i class="mdi mdi-asterisk"></i></span>
+              </p>
+              <p class="block text-xs mt-1 text-gray-600">Por favor ingresa la contraseña</p>
+            </div>
+            <div class="mb-6">
+              <div class="relative">
+                <label class="cursor-pointer items-center inline-flex relative">
+                  <input class="block w-5 h-5 border rounded left-0 absolute border-gray-800 checked:bg-blue-500" type="checkbox" id="showPassword" onclick="togglePassword()">
+                  <span class="pl-8">Ver Contraseña</span>
+                </label>
+              </div>
+            </div>
+            <hr class="mb-6">
+            <div class="flex justify-start">
+              <div class="relative">
+                <input type="submit" class="bg-gray-700 hover:bg-gray-500 text-gray-50 text-sm text-center border rounded inline-flex justify-center py-2 px-4 border-gray-50 hover:border-gray-500 cursor-pointer" name="buttonlogin" value="Entrar"></input>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  <script src="../assets/js/togglePassword.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if(alert === 'successfulLogin') { %>
+    <script>
+      let timerInterval
+        Swal.fire({
+          icon: 'success',
+          title: '¡Acceso Correcto!',
+          html: 'Accediento en <b></b> milisegundos.',
+          timer: 2000,
+          timerProgressBar: true,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(function () {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            location.href ='/';
+          }
+        })
+    </script>
+  <% } else if (alert === 'incorrectLogin') { %>
+    <script>
+      Swal.fire({
+        title: '<%= alertTitle %>',
+        text:'<%= alertMessage %>',
+        icon:'<%= alertIcon %>',
+        showConfirmButton: true,
+        confirmButtonText: 'Volver',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        timer: false
+      }).then(function(){
+        window.location = '/<%= ruta %>'
+      })
+    </script>
+  <% } %>
+</body>
+</html>
